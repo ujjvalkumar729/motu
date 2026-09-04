@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Motu  🥰 </title>
+    <style>
+        .motu{
+            height: 80px;
+            width: 80px;
+            margin:0 auto 15px;
+            border-radius: 50%;
+            overflow: hidden;
+            border-radius: 3px solid pink;
+            flex-shrink: 0;
+            
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #fffafb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* बैकग्राउंड में तैरते हुए छोटे दिल */
+        .bg-heart {
+            position: absolute;
+            color: rgba(255, 77, 109, 0.25);
+            font-size: 20px;
+            animation: floatUp 6s linear infinite;
+            bottom: -50px;
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-105vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* सभी स्क्रीन्स के लिए कॉमन कंटेनर */
+        .screen-container {
+            max-width: 600px;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100vh;
+        }
+
+        /* पहली स्क्रीन डिफ़ॉल्ट रूप से दिखेगी */
+        #screen1 {
+            display: flex;
+        }
+
+        .heart {
+            font-size: 100px;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: pulse 1.5s infinite alternate;
+            filter: drop-shadow(0 10px 15px rgba(255, 77, 109, 0.3));
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #2b2b2b;
+            font-weight: normal;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        /* बटन डिजाइन */
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .btn-open {
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            color: white;
+            border: none;
+            padding: 14px 50px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255, 117, 140, 0.4);
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .btn-open:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 117, 140, 0.6);
+        }
+
+        .btn-no {
+            background-color: transparent;
+            color: #ff4d6d;
+            border: 2px solid #ffccd5;
+            padding: 12px 40px;
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 280px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-no:hover {
+            background-color: #fff0f3;
+            border-color: #ff4d6d;
+        }
+
+        /* --- मुख्य इमोशनल लेटर कार्ड (स्क्रीन 5) --- */
+        .letter-card {
+            background: white;
+            width: 100%;
+            max-width: 440px;
+            max-height: 85vh;
+            padding: 25px 20px;
+            border-radius: 24px;
+            box-shadow: 0 15px 40px rgba(255, 77, 109, 0.12);
+            border: 1px solid rgba(255, 192, 203, 0.4);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .profile-img-container {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #ff758c;
+            flex-shrink: 0;
+        }
+
+        .profile-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .letter-card h2 {
+            color: #ff4d6d;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+
+        /* स्क्रॉल होने वाला टेक्स्ट एरिया */
+        .letter-text-box {
+            overflow-y: auto;
+            padding-right: 5px;
+            margin-bottom: 15px;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .letter-text-box::-webkit-scrollbar {
+            width: 4px;
+        }
+        .letter-text-box::-webkit-scrollbar-thumb {
+            background-color: #ffccd5;
+            border-radius: 10px;
+        }
+
+        /* एक-एक करके आने वाली लाइन्स का स्टाइल */
+        .letter-p {
+            color: #4a4a4a;
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            display: none;
+            animation: fadeInLine 0.8s forwards ease;
+        }
+
+        @keyframes fadeInLine {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* हमेशा फिक्स दिखने वाले बटन्स */
+        .final-action-btns {
+            display: flex !important;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #fff0f3;
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #ff4d6d 0%, #ff758c 100%);
+            color: white;
+            border: none;
+            padding: 11px 30px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(255, 77, 109, 0.3);
+            width: 110px;
+        }
+
+        .btn-final-no {
+            background-color: transparent;
+            color: #777;
+            border: 2px solid #ddd;
+            padding: 11px 30px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 110px;
+            transition: all 0.1s ease;
+        }
+
+        /* हवा में तैरता हुआ टेक्स्ट फीडबैक */
+        .floating-reply {
+            position: fixed;
+            font-family: sans-serif;
+            font-weight: bold;
+            font-size: 1.1rem;
+            pointer-events: none;
+            z-index: 9999;
+            animation: textFloatUp 2s forwards ease-out;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 18px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        @keyframes textFloatUp {
+            0% { transform: translateY(0) scale(0.9); opacity: 1; }
+            100% { transform: translateY(-160px) scale(1.1); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. मुख्य स्क्रीन -->
+    <div class="screen-container" id="screen1">
+        <div class="heart">❤️</div>
+        <h1>Something special.. just for My Motu  🥰❤️ 🙈</h1>
+        <div class="btn-container">
+            <button class="btn-open" onclick="navigateTo('screen5')">Open It ✨</button>
+            <button class="btn-no" onclick="navigateTo('screen2')">No... I don't want to open 💔</button>
+        </div>
+    </div>
+
+    <!-- 2. पहला पॉप-अप ("Really...?") -->
+    <div class="screen-container" id="screen2">
+        <div class="heart" style="font-size: 80px;">🥺</div>
+        <h1>Really...?<br><span style="font-size:1.2rem; color:#666;">You don't even want to see this...?</span></h1>
+        <div class="btn-container">
+            <button class="btn-open" onclick="navigateTo('screen5')">Open It ✨</button>
+            <button class="btn-no" onclick="navigateTo('screen3')">No... I don't want to open 💔</button>
+        </div>
+    </div>
+
+    <!-- 3. दूसरा पॉप-अप ("Okay... maybe...") -->
+    <div class="screen-container" id="screen3">
+        <div class="heart" style="font-size: 80px;">💔</div>
+        <h1>Okay... maybe it doesn't matter to you 💔</h1>
+        <div class="btn-container">
+            <button class="btn-open" onclick="navigateTo('screen5')">Open It ✨</button>
+            <button class="btn-no" onclick="navigateTo('screen4')">Motu please... now open it 🥺</button>
+        </div>
+    </div>
+
+    <!-- 4. तीसरा पॉप-अप ("Just one click...") -->
+    <div class="screen-container" id="screen4">
+        <div class="heart" style="font-size: 80px; animation: none;">💔</div>
+        <h1>Just see it once... please? <p>Your surprise is waiting! 🎁 💕</p></h1>
+        <div class="btn-container">
+            <button class="btn-open" onclick="navigateTo('screen5')">Open It ✨</button>
+        </div>
+    </div>
+
+    <!-- 5. मुख्य इमोशनल लेटर स्क्रीन -->
+    <div class="screen-container" id="screen5">
+        <div class="letter-card">
+            <div class="profile-img-container">
+                <img src="Hello HTML/mahto.jpeg" alt="Couple">
+            </div>
+            <h2>Oyeeee Motu🥰 This One’s For You 💕🎂</h2>
+            
+            <div class="letter-text-box" id="textBox">
+                <p class="letter-p" id="p1">It's your birthday, and even though we are not talking right now , I still remember
+                    you and miss our conversations a lot .
+                </p>
+                <p class="letter-p" id="p2">I just hope you keep smiling, stay happy, and have a beautiful day Happy Birthday Motu ❤️🎂</p>
+                <p class="letter-p" id="p3">Your smile has a kind of magic that brings me a peace I can't explain,
+                     and talking to you is always a different kind of happiness. Even when we argue, even when we don't talk for days, my feelings and respect for you never change. I’m still the same person who always wishes the best for you Motu🫶🏻.</p>
+                <p class="letter-p" id="p4"> <h3> You are one of the most importanat parts of my life</h3> 
+                    Kuchh din ke liye aati ho , bahut sare happiness de jaate ho, Aur phir acchanak se chale bhi jate ho.
+                    But yaade hamesha chhod jati ho, Woh hamesha special rahengi Motu ❤️<h5>Hey kya smile hai re teri 
+                        <img class="motu" src="Hello HTML/smilemotu.jpeg" alt="smilepic">
+                    </h5></p>
+                              
+                <p class="letter-p" id="p5" style="font-style: italic; color:#666;">Whenever life takes you , I just hope you always stay happy , keep smilling  that beautiful smile, and get everything your heart wishes for . May God bless you with all the happiness , success, and beautiful moments you deserve . 🎂🎈💖</p>
+                <p class="letter-p" id="p6" style="font-weight: bold; color: #ff4d6d; margin-top:15px;">Motu Bhalli hi baat nahi krti ho , fir bhi  you’ll always be special to me. Jo bhi ho, bas hamesha khush rehna aur aise hi smile karti rehna. ❤️🥹 🥺 👉👈</p>
+            </div>
+
+            <!-- यह बटन्स का डिब्बा हमेशा अपनी जगह लॉक रहेगा और कभी ओझल नहीं होगा -->
+            <div class="final-action-btns">
+                <button class="btn-yes" onclick="triggerCelebration()">Yes! 🥰</button>
+                <button class="btn-final-no" id="runawayNo" onclick="handleNoInteraction(event)" onmouseover="handleNoInteraction(event)">No 🥺</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- स्पेशल एनीमेशन स्क्रीन (दिलों की बारिश और बड़ा दिल) -->
+    <div class="screen-container" id="animationScreen" style="background: rgba(255, 240, 243, 0.9); z-index: 99999; position: fixed; top:0; left:0; width:100vw; height:100vh;">
+        <div class="heart" id="giantHeart" style="font-size: 200px; transform: scale(0); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);">❤️</div>
+    </div>
+
+    <!-- 6. कांग्रेचुलेशन और थैंक यू स्क्रीन -->
+    <div class="screen-container" id="screen6">
+        <div class="letter-card" style="max-width: 500px; padding: 35px 25px; background: #f4faf7; border: 1px solid #e2f0e9; height: auto; max-height: 90vh;">
+            <h1 style="color: #d2691e; font-weight: bold; font-size: 2rem; margin-bottom: 15px; letter-spacing: 2px;">CONGRATULATIONS! 🎉</h1>
+            
+            <div style="font-size: 1.1rem; color: #4a4a4a; line-height: 1.7; text-align: center; overflow-y: auto; padding-right: 5px;">
+                Thank you for being ...<br>
+                A special part of my life even we are not talking right now.<br><br>
+                Thank you for all the beautiful memories...<br>
+                And for all happiness you brought into my life Motu❤️.<br><br>
+                You are not just my Friend...<br>
+                <span style="font-weight: bold; color: #ff4d6d;">You are someone who will always be special to me ( MOTU=SUKOON  🫶🏻❤️)❤️</span>
+                <br><br>
+                <div style="font-size: 1.15rem; color: #d2691e; font-weight: bold; line-height: 1.6; margin-bottom: 25px;">
+                    And I just want to say this ...<br>
+                    No matter how much time passes or how far we are ,<br>
+                    I will always wish the best for you 🫶🏻❤️.
+                </div>
+
+                <!-- स्पेशल Hinglish Thank You और मजेदार/भावुक संदेश सेक्शन -->
+                <div style="padding-top: 20px; border-top: 2px dashed #ffccd5; text-align: center;">
+                    <div style="font-size: 1.35rem; color: #ff4d6d; font-weight: bold; margin-bottom: 12px;">
+                        Itna Sab Kuch Padhne Ke Liye Thank You! 🥺👉👈
+                    </div>
+                    
+                    <p style="font-size: 1.05rem; color: #555; font-style: italic; line-height: 1.6; background: rgba(255,255,255,0.8); padding: 15px; border-radius: 12px; box-shadow: inset 0 0 10px rgba(255,77,109,0.05);">
+                      Pata hai Motu❤️ Kabhi gussa, kabhi nok-jhok, kabhi bina kisi reason ke hasi… tumhare saath har moment 
+                      apne aap special ban jaata hai. 🥹✨ Bas ek request hai—chahe tum kitne bhi din baat na kro, tum apni woh cute si smile kabhi mat khona. Aur haan, life mein jab bhi tumhe koi reason na mile 
+                      smile karne ka, toh meri ye bakwaas yaad kar lena 😂🫶🏻Motu 💖✨
+                    </p>
+                    
+                    <div style="font-size: 1.5rem; margin: 15px 0;">🙈❤️🔒</div>
+
+                    <!-- 'Next' बटन जो सबसे आखिरी बर्थडे पेज पर लेकर जाएगा -->
+                    <button class="btn-yes" onclick="navigateTo('screen7')" style="width: 140px; background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%); padding: 12px 25px;">Next... 👉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. बिल्कुल नया और सबसे आख़िरी बर्थडे सेलिब्रेशन पेज -->
+    <div class="screen-container" id="screen7" style="background: radial-gradient(circle, #fff5f7 0%, #ffe3e8 100%);">
+        <div class="letter-card" style="max-width: 600px; padding: 1px 30px; border: 2px solid #ffccd5; background: rgba(255, 255, 255, 0.95); position: relative; overflow: visible;">
+            
+            <h1 style="color: #ff4d6d; font-weight: bold; font-size: 2.2rem; line-height: 1.4; margin-bottom: 25px; text-shadow: 2px 2px 4px rgba(0,0,0,0.05); animation: pulse 1s infinite alternate;">
+                Once Again<br>Happy Birthday Motu! 🎂🎈
+            </h1>
+
+            <!-- <div style="width: 180px; height: 180px; margin: 0 auto 25px; filter: drop-shadow(0 10px 20px rgba(255,77,109,0.25));">
+                <img src="https://unsplash.com" alt="Birthday Cake" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
+            </div> -->
+
+            <p style="font-size: 1.2rem; color: #d2691e; font-weight: bold; letter-spacing: 1px;">
+                May your day be filled with lots of cake,<br>
+                Aur haan… kabhi life tumhe meri yaad dilaye, toh bas ek smile kar dena… itna hi kaafi hai. 🌸
+Happy Birthday once again, Motu! 🎂❤️ Stay happy, always. 👑✨
+<br>
+Keep smiling, Motu… tumhari smile bahut kuchh better kar deti hai. ❤️🌸
+<br> Agr life me kabhi mauka mila toh tumhara birthday itna special banaunga ki woh din tumhe long time tak yaad rahega 👑✨<br>
+Miss you a lot Motu ... some people become memoriries........  🥹 🥹 🥹<br>
+Achhe se rehna apna khayal rakhna🫶🏻Motu 💖✨ 
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function navigateTo(screenId) {
+            const screens = document.querySelectorAll('.screen-container');
+            screens.forEach(s => s.style.display = 'none');
+            
+            const target = document.getElementById(screenId);
+            if(target) target.style.display = 'flex';
+
+            if (screenId === 'screen5') {
+                startLetterAnimation();
+            }
+            if (screenId === 'screen7') {
+                startBirthdayCelebration();
+            }
+        }
+
+        function startLetterAnimation() {
+            const lines = ['p1', 'p2', 'p3', 'p4', 'p5', 'p6'];
+            let delay = 100;
+
+            lines.forEach((id) => {
+                setTimeout(() => {
+                    const el = document.getElementById(id);
+                    if(el) {
+                        el.style.display = 'block';
+                        const box = document.getElementById('textBox');
+                        if(box) box.scrollTop = box.scrollHeight;
+                    }
+                }, delay);
+                delay += 1200;
+            });
+        }
+
+        function triggerCelebration() {
+            navigateTo('animationScreen');
+            
+            setTimeout(() => {
+                const gh = document.getElementById('giantHeart');
+                if(gh) gh.style.transform = 'scale(1)';
+            }, 100);
+
+            let rainInterval = setInterval(() => {
+                const symbols = ['❤️', '💖', '💝', '💕', '🌸'];
+                const heart = document.createElement('div');
+                heart.classList.add('bg-heart');
+                heart.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.animationDuration = Math.random() * 1.5 + 1.5 + "s";
+                heart.style.fontSize = Math.random() * 20 + 20 + "px";
+                heart.style.zIndex = "999999";
+                document.body.appendChild(heart);
+                setTimeout(() => { heart.remove(); }, 3000);
+            }, 50);
+
+            setTimeout(() => {
+                clearInterval(rainInterval);
+                navigateTo('screen6');
+            }, 3000);
+        }
+
+        // आख़िरी पेज के लिए स्पेशल पटाखा और गुब्बारा ब्लास्ट फंक्शन
+        function startBirthdayCelebration() {
+            const elements = ['🎈', '🎉', '🥳', '✨', '🎂', '💥', '🎁'];
+            
+            let bdayInterval = setInterval(() => {
+                const item = document.createElement('div');
+                item.classList.add('bg-heart');
+                item.innerText = elements[Math.floor(Math.random() * elements.length)];
+                item.style.left = Math.random() * 100 + "vw";
+                item.style.fontSize = Math.random() * 25 + 20 + "px";
+                item.style.animationDuration = Math.random() * 2 + 3+ "s";
+                item.style.color = "initial";
+                item.style.zIndex = "999999";
+                
+                document.body.appendChild(item);
+                setTimeout(() => { item.remove(); }, 3000);
+            }, 80);
+
+            setTimeout(() => {
+                clearInterval(bdayInterval);
+            }, 8000);
+        }
+
+        let noCount = 0;
+        const noReplies = [
+            { text: "Please don't go", icon: "❤️" },
+            { text: "Please ek smile ke liye yes kr do", icon: "🥺" },
+            { text: "Motu No Ko chhodo cake pe focus kro ", icon: "😂" },
+             { text: "Please ek smile ke liye yes kr do", icon: "🥺" },
+              { text: "Ek baar yes kr do", icon: "🥺" },
+               { text: "Motu No button bhi tumse darr ke bhag raha hai", icon: "😂" },
+               { text: "Arey Motu, NO pe hover mat kro plz", icon: "🤝" },
+            { text: "I'll do Better", icon: "🤝" },
+              { text: "Arey Motu, NO pe hover mat kro plz", icon: "🤝" },
+            { text: "Stay with me", icon: "🌸" },
+            { text: "Please ek smile ke liye yes kr do", icon: "🥺" },
+            { text: "Please don't go", icon: "😭" }
+        ];
+
+        function handleNoInteraction(event) {
+            event.preventDefault();
+            const btn = document.getElementById('runawayNo');
+            if (!btn) return;
+
+            const rect = btn.getBoundingClientRect();
+            const currentReply = noReplies[noCount % noReplies.length];
+            noCount++;
+
+            const floater = document.createElement('div');
+            floater.classList.add('floating-reply');
+            floater.style.color = (currentReply.icon === "😭") ? "#555" : "#ff4d6d";
+            floater.innerHTML = `${currentReply.text} ${currentReply.icon}`;
+            
+            floater.style.left = (rect.left + window.scrollX) + 'px';
+                        floater.style.left = (rect.left + window.scrollX) + 'px';
+            floater.style.top = (rect.top + window.scrollY - 35) + 'px';
+            document.body.appendChild(floater);
+
+            setTimeout(() => { floater.remove(); }, 2000);
+
+            const padding = 50;
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth - (padding * 2)) + padding;
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight - (padding * 2)) + padding;
+            
+            btn.style.position = 'fixed';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+            btn.style.zIndex = '9999';
+        }
+
+        function initBackgroundHearts() {
+            const symbols = ['❤️', '💖', '💝', '💕', '🌸'];
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('bg-heart');
+                heart.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.animationDuration = Math.random() * 2 + 4 + "s";
+                heart.style.fontSize = Math.random() * 15 + 15 + "px";
+                document.body.appendChild(heart);
+                setTimeout(() => { heart.remove(); }, 6000);
+            }, 500);
+        }
+        initBackgroundHearts();
+    </script>
+</body>
+</html>
+
